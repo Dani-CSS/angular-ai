@@ -20,14 +20,17 @@ export class SimpleChat {
 
   userInput = ''; //prompt
 
+  isLoading = false;
+
   messages = signal([
     { text: 'Hello, how can I help you today?', isBot: true}
   ])
 
   sendMessage() : void {
     this.trimUserMessage();
-    if (this.userInput !== '') {
+    if (this.userInput !== '' && !this.isLoading) {
       this.updateMessages(this.userInput);
+      this.isLoading = true;
       this.userInput = '';
       this.simulateBotResponse();
     }
@@ -46,6 +49,7 @@ export class SimpleChat {
     setTimeout((): void => {
       const response = 'This is a simulated response from Chat AI'; // Simulated response
       this.updateMessages(response, true);
+      this.isLoading = false;
     }, 2000);
   }
 
